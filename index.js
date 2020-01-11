@@ -1,8 +1,8 @@
-import express from "express"; // using expres
-import socketIO from "socket.io";
-import http from "http";
-import Matter from "matter-js";
-import {
+const express = require("express"); // using expre)s
+const socketIO = require("socket.io");
+const http = require("http");
+const Matter = require("matter-js");
+const {
   defaultWidth,
   defaultHeight,
   treeStartFactor,
@@ -15,8 +15,8 @@ import {
   playerYDrag,
   playerRadiusFactor,
   wallThickness
-} from "./ constants";
-import { generateMap } from "./utils/mapUtil";
+} = require("./ constants");
+const generateMap = require("./utils/mapUtil");
 
 const port = process.env.PORT || 3001; // setting the port
 const app = express();

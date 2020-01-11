@@ -1,4 +1,4 @@
-export function generateMap(limits, frequency) {
+module.exports = function generateMap(limits, frequency) {
   let treeMap = [];
   for (let i = limits[0]; i < limits[1]; i += frequency) {
     treeMap.push({
@@ -7,4 +7,4 @@ export function generateMap(limits, frequency) {
     });
   }
   return treeMap;
-}
+};
