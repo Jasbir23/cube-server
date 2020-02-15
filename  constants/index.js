@@ -1,6 +1,6 @@
 module.exports = {
-  defaultWidth: 360,
-  defaultHeight: 640,
+  defaultWidth: 600,
+  defaultHeight: 600,
 
   treeStartFactor: 0.3,
   treeEndFactor: 33,

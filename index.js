@@ -38,66 +38,31 @@ const Engine = Matter.Engine,
 
 // create an engine
 const engine = Engine.create();
-engine.world.gravity.y = worldGravity;
-
-const objectMap = generateMap(
-  [treeStartFactor * defaultHeight, treeEndFactor * defaultHeight],
-  treeFreqFactor * defaultHeight
-);
-
-// generate bodies for obstacles
-const worldObstacles = objectMap.map(obj =>
-  Bodies.rectangle(
-    defaultWidth * obj.x,
-    obj.y,
-    defaultWidth * obstacleRadiusFactor,
-    defaultWidth * obstacleRadiusFactor,
-    {
-      isStatic: true
-    }
-  )
-);
-
-// add all of the bodies to the world
-World.add(engine.world, worldObstacles);
-
-// add walls
-
 const wallLeft = Bodies.rectangle(
-  0 - wallThickness / 2,
-  (treeEndFactor * defaultHeight) / 2,
+  0,
+  defaultHeight / 2,
   wallThickness,
-  treeEndFactor * defaultHeight,
+  defaultHeight,
   {
     isStatic: true
   }
 );
 const wallRight = Bodies.rectangle(
-  defaultWidth + wallThickness / 2,
-  (treeEndFactor * defaultHeight) / 2,
-  wallThickness,
-  treeEndFactor * defaultHeight,
-  {
-    isStatic: true
-  }
-);
-
-const bottomWall = Bodies.rectangle(
-  defaultWidth / 2,
-  treeEndFactor * defaultHeight,
   defaultWidth,
+  defaultHeight / 2,
   wallThickness,
+  defaultHeight,
   {
     isStatic: true
   }
 );
 
-World.add(engine.world, [wallLeft, wallRight, bottomWall]);
+World.add(engine.world, [wallLeft, wallRight]);
+engine.world.gravity.y = 0;
 
 io.on("connection", socket => {
   addToWorld(socket);
-  socket.emit("readyToGame", objectMap);
-  socket.on("newControls", newControls => {
+  socket.on("playerControl", newControls => {
     playerMap[socket.id] && updateControls(socket.id, newControls);
   });
   socket.on("disconnect", () => {
@@ -108,14 +73,15 @@ io.on("connection", socket => {
 function addToWorld(socket) {
   const playerBody = Bodies.rectangle(
     Math.random() * defaultWidth,
-    initYPos * defaultWidth,
-    playerRadiusFactor * defaultWidth,
-    playerRadiusFactor * defaultWidth
+    Math.random() * defaultHeight,
+    20,
+    20
   );
+
   playerMap[socket.id] = {
     body: playerBody,
     socketEmitter: socket,
-    playerControl: 0
+    playerControl: { x: 0, y: 0 }
   };
   World.add(engine.world, [playerBody]);
 }
@@ -133,15 +99,16 @@ setInterval(() => {
   const sendBodies = Object.keys(playerMap).map(playerId => {
     const playerControl = playerMap[playerId].playerControl;
     const playerBody = playerMap[playerId].body;
-    if (playerControl) {
+    if (playerControl.x || playerControl.y) {
       Body.applyForce(playerBody, playerBody.position, {
-        x: playerControl * playerXForce,
-        y: playerYDrag
+        x: playerControl.x * playerXForce,
+        y: playerControl.y * playerXForce
       });
     }
     return {
-      velocities: playerBody.velocity,
+      velocity: playerBody.velocity,
       position: playerBody.position,
+      force: playerBody.force,
       id: playerId
     };
   });
