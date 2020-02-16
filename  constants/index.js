@@ -9,6 +9,6 @@ module.exports = {
   wallThicknessFactor: 1 / 10,
   playerRadiusFactor: 0.04, // wrt width
   obstacleRadiusFactor: 0.06, // wrt width
-  worldGravity: 0.003,
+  worldGravity: 0.03,
   initYPos: 0.2
 };
