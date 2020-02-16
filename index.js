@@ -178,6 +178,6 @@ setInterval(() => {
   });
   io.sockets.emit("newWorld", sendBodies);
   Engine.update(engine);
-}, 33);
+}, 50);
 
 server.listen(port, () => console.log(`Listening on port ${port}`));
