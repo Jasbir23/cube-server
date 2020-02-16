@@ -156,14 +156,18 @@ function removeFromWorld(id) {
   delete playerMap[id];
 }
 
+// setInterval(() => {
+// }, 33); // update engine
+
 setInterval(() => {
+  Engine.update(engine);
   const sendBodies = Object.keys(playerMap).map(playerId => {
     const playerControl = playerMap[playerId].playerControl;
     const playerBody = playerMap[playerId].body;
-    if (playerControl.x || playerControl.y) {
+    if (playerControl.x) {
       Body.applyForce(playerBody, playerBody.position, {
         x: playerControl.x * playerXForce,
-        y: playerControl.y * playerXForce
+        y: 0
       });
     }
     return {
@@ -177,7 +181,6 @@ setInterval(() => {
     };
   });
   io.sockets.emit("newWorld", sendBodies);
-  Engine.update(engine);
-}, 50);
+}, 33); // emit new world
 
 server.listen(port, () => console.log(`Listening on port ${port}`));
