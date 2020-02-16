@@ -1,5 +1,5 @@
 module.exports = {
-  raceLength: 10000,
+  raceLength: 640,
   treeFrequency: 100,
   defaultWidth: 360,
   defaultHeight: 640,
@@ -9,6 +9,6 @@ module.exports = {
   wallThicknessFactor: 1 / 10,
   playerRadiusFactor: 0.04, // wrt width
   obstacleRadiusFactor: 0.06, // wrt width
-  worldGravity: 0.3,
+  worldGravity: 0.003,
   initYPos: 0.2
 };
