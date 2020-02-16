@@ -1,19 +1,14 @@
 module.exports = {
-  defaultWidth: 600,
-  defaultHeight: 600,
-
-  treeStartFactor: 0.3,
-  treeEndFactor: 33,
-  treeFreqFactor: 0.05, // wrt height
-
-  playerRadiusFactor: 0.03, // wrt width
-  obstacleRadiusFactor: 0.05, // wrt width
-
-  worldGravity: 0.5,
+  raceLength: 10000,
+  treeFrequency: 100,
+  defaultWidth: 360,
+  defaultHeight: 640,
+  defaultAspectRation: 360 / 640,
   playerXForce: 17 / 100000,
   playerYDrag: -2 / 100000,
-
-  wallThickness: 50,
-
-  initYPos: 0.3 // wrt width
+  wallThicknessFactor: 1 / 10,
+  playerRadiusFactor: 0.04, // wrt width
+  obstacleRadiusFactor: 0.06, // wrt width
+  worldGravity: 0.3,
+  initYPos: 0.2
 };
