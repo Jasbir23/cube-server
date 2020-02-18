@@ -14,7 +14,9 @@ const {
   playerRadiusFactor,
   wallThicknessFactor,
   worldGravity,
-  initYPos
+  initYPos,
+  normalFriction,
+  movementFriction
 } = require("./ constants");
 
 const port = process.env.PORT || 3001; // setting the port
@@ -167,9 +169,11 @@ setInterval(() => {
     if (playerControl.x) {
       Body.applyForce(playerBody, playerBody.position, {
         x: playerControl.x * playerXForce,
-        y: 0
+        y: playerYDrag
       });
+      // playerBody.firctionAir = movementFriction;
     }
+    // else playerBody.firctionAir = normalFriction;
     return {
       velocity: playerBody.velocity,
       position: playerBody.position,
@@ -177,7 +181,9 @@ setInterval(() => {
       angle: playerBody.angle,
       angularVelocity: playerBody.angularVelocity,
       id: playerId,
-      currentSampleDate: new Date()
+      currentSampleDate: new Date(),
+      normalFriction,
+      movementFriction
     };
   });
   io.sockets.emit("newWorld", sendBodies);
